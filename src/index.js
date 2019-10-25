@@ -17,7 +17,9 @@ const heartbeatMiddleware = (heartbeatMiddlewareOptions) => {
     } = req
 
     if (method === 'GET' && path === statusPath) {
-      const statusCode = Object.values(lastStatus).some(({status}) => status !== 200)
+      const statusCode = Object.values(lastStatus)
+        .filter((routeStatus) => Boolean(routeStatus))
+        .some(({status}) => status !== 200)
         ? 500
         : 200
       res.status(statusCode).json(lastStatus)
