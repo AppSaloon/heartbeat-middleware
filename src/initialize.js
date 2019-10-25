@@ -2,7 +2,11 @@ const getHeartbeat = require('./getHeartbeat')
 
 const initialize = (routes, lastStatus, interval) => {
   routes.forEach((route) => {
-    lastStatus[route] = undefined
+    lastStatus[route] = {
+      status: undefined,
+      start: undefined,
+      end: undefined,
+    }
     try {
       getHeartbeat(lastStatus, route)
       setInterval(() => getHeartbeat(lastStatus, route), interval * 1000)
