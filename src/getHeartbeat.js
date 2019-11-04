@@ -14,9 +14,10 @@ const getHeartbeat = (lastStatus, route) => {
           end: new Date(),
         })
       })
-      .catch((error) => {
+      .catch(({message: status}) => {
+        console.error(new Error(`no heartbeat on ${url}: ${status}`))
         resolve({
-          status: error.message,
+          status,
           end: new Date()
         })
       })
