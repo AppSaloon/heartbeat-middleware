@@ -3,7 +3,7 @@ const got = require('got')
 const getHeartbeat = (lastStatus, route) => {
   const url = `${route}/status`
   const options = {
-    timeout: 2000,
+    timeout: 2000
   }
   const start = new Date()
   const promise = new Promise((resolve) => {
@@ -11,10 +11,10 @@ const getHeartbeat = (lastStatus, route) => {
       .then((res) => {
         resolve({
           status: res.statusCode,
-          end: new Date(),
+          end: new Date()
         })
       })
-      .catch(({message: status}) => {
+      .catch(({ message: status }) => {
         console.error(new Error(`no heartbeat on ${url}: ${status}`))
         resolve({
           status,
@@ -22,11 +22,11 @@ const getHeartbeat = (lastStatus, route) => {
         })
       })
   })
-  promise.then(({status, end}) => {
+  promise.then(({ status, end }) => {
     lastStatus[route] = {
       status,
       start,
-      end,
+      end
     }
   })
 }

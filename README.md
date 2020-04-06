@@ -1,11 +1,12 @@
-## heartbeat-middleware
+# heartbeat-middleware
 
-### Description
+## Description
+
 Heartbeat controller for a proxy service (express)
 
-### Usage
-`npm i @appsaloon/heartbeat-middleware`
+## Usage
 
+`npm i @appsaloon/heartbeat-middleware`
 
 ```javascript
 const express = require('express')
@@ -29,8 +30,10 @@ app.get('/status', heartbeatMiddleware (
 // the rest of your express app
 ```
 
-### GET /status responses
-#### 200
+## GET /status responses
+
+### 200
+
 ```json
 {
     "http://service1": {
@@ -45,7 +48,9 @@ app.get('/status', heartbeatMiddleware (
     }
 }
 ```
-#### 500
+
+### 500
+
 ```json
 {
     "http://service1": {

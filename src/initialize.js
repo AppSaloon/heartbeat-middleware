@@ -5,7 +5,7 @@ const initialize = (routes, lastStatus, interval) => {
     try {
       getHeartbeat(lastStatus, route)
       setInterval(() => getHeartbeat(lastStatus, route), interval * 1000)
-    } catch(error) {}
+    } catch (error) {}
   })
 }
 
