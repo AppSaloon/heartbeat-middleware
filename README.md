@@ -8,6 +8,9 @@ This middleware can be used to add a GET "/status" endpoint to your Express prox
 
 It will periodically request the status of other services. When the "/status" endpoint is requested, this middleware will respond with either statusCode `200` when all other services are reachable, or `500` when at least one service is unreachable.
 
+## Purpose
+You can use heartbeat-middleware to add `domain.org/status` to services like [UptimeRobot](https://uptimerobot.com/) to make sure you will be notified of connectivity problems within your Express applications. 
+
 ## Usage (Express proxy application)
 
 `npm i @appsaloon/heartbeat-middleware`
