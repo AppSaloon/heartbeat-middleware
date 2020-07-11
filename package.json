@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "bash ./build/build.sh",
+    "demo": "bash ./demo/demo.sh",
     "pub": "npm run build && cd dist && npm publish && cd .."
   },
   "author": "david@appsaloon.be",

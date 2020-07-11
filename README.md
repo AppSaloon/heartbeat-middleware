@@ -74,3 +74,25 @@ app.get('/status', heartbeatMiddlewareClient)
 ```
 
 No further configuration is required for the client middleware.
+
+## Demo
+A demo is provided in this repository. The demo contains a docker-compose.yml file with the following services:
+* proxy-service
+* service1
+* service2
+* service3
+* service4
+
+The proxy service is set up to route requests from localhost:3000/service1 to service1, and so on.
+
+The proxy service also has a /status endpoint which will respond with either `200` or `500`, depending on whether or not all the services are reachable.
+
+To start the demo, run `npm run demo` and visit http://localhost:3000/status.
+
+This demo setup has deliberately been broken to show what happens to the output when one or more services become unreachable by heartbeat-middleware.
+In this case, service1 has been disabled. This will also cause http://service2/status to respond with a `500` status code because service1 has been added to the dependencies array of service2 in the heartbeat middleware options.
+
+To fix the demo, uncomment line 27 in  ./demo/docker-compose.yml, and then run  `npm run demo` again:
+```
+#    command: node ./src/index.js
+```
