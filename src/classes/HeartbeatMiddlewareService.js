@@ -22,7 +22,7 @@ class HeartbeatMiddlewareService {
         if(this.#options.getHideOutput()) {
           res.send()
         } else {
-          res.json(this.#lastStatus)
+          res.json({status, ...this.#lastStatus})
         }
     }
   }
