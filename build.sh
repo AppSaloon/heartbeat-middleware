@@ -1,9 +1,8 @@
 #!/bin/bash
 
-(rm -R dist || true)
-mkdir dist
-cp src/* ./dist
-cp ./package*.json ./dist
-cp README.md ./dist
-cd dist
+mkdir -p dist &&
+rm -Rf dist/* &&
+npx babel src -d dist &&
+cp package*.json dist &&
+cd dist &&
 npm link
