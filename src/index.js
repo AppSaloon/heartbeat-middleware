@@ -14,4 +14,3 @@ const client = () => {
 
 module.exports = service
 module.exports.heartbeatMiddlewareClient = client()
-

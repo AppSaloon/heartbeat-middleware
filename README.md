@@ -1,5 +1,7 @@
 # heartbeat-middleware
 
+[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
+
 ## Description
 
 Heartbeat controller for a proxy service.
@@ -9,7 +11,8 @@ This middleware can be used to add a GET "/status" endpoint to your Express prox
 It will periodically request the status of other services. When the "/status" endpoint is requested, this middleware will respond with either statusCode `200` when all other services are reachable, or `500` when at least one service is unreachable.
 
 ## Purpose
-You can use heartbeat-middleware to add `domain.org/status` to services like [UptimeRobot](https://uptimerobot.com/) to make sure you will be notified of connectivity problems within your Express applications. 
+
+You can use heartbeat-middleware to add `domain.org/status` to services like [UptimeRobot](https://uptimerobot.com/) to make sure you will be notified of connectivity problems within your Express applications.
 
 ## Usage (Express proxy application)
 
@@ -41,8 +44,11 @@ app.get('/status', heartbeatMiddleware(options))
 
 // the rest of your express proxy app
 ```
+
 ### heartbeatMiddlewareOptions
+
 The options variable passed to HeartbeatMiddleware should be an object with the following properties:
+
 * `routes` (required): an array of objects with the following properties:
   * `url` (required): a string
   * `dependencies` (optional): an array of strings
@@ -76,7 +82,9 @@ app.get('/status', heartbeatMiddlewareClient)
 No further configuration is required for the client middleware.
 
 ## Demo
+
 A demo is provided in this repository. The demo contains a docker-compose.yml file with the following services:
+
 * proxy-service
 * service1
 * service2
@@ -87,12 +95,13 @@ The proxy service is set up to route requests from localhost:3000/service1 to se
 
 The proxy service also has a /status endpoint which will respond with either `200` or `500`, depending on whether or not all the services are reachable.
 
-To start the demo, run `npm run demo` and visit http://localhost:3000/status.
+To start the demo, run `npm run demo` and visit <http://localhost:3000/status>.
 
 This demo setup has deliberately been broken to show what happens to the output when one or more services become unreachable by heartbeat-middleware.
-In this case, service1 has been disabled. This will also cause http://service2/status to respond with a `500` status code because service1 has been added to the dependencies array of service2 in the heartbeat middleware options.
+In this case, service1 has been disabled. This will also cause <http://service2/status> to respond with a `500` status code because service1 has been added to the dependencies array of service2 in the heartbeat middleware options.
 
 To fix the demo, uncomment line 27 in  ./demo/docker-compose.yml, and then run  `npm run demo` again:
-```
+
+```yaml
 #    command: node ./src/index.js
 ```

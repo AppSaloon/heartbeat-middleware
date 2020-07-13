@@ -5,11 +5,11 @@ class HeartbeatMiddlewareClient {
   run () {
     return (req, res) => {
       const dependencyPromises = []
-      if(req.query && req.query.dependencies && req.query.dependencies.length) {
+      if (req.query && req.query.dependencies && req.query.dependencies.length) {
         const dependencies = req.query.dependencies.split(',')
-        for(const url of dependencies) {
+        for (const url of dependencies) {
           const promise = new Promise((resolve) => {
-            got(url, {timeout: 3000})
+            got(url, { timeout: 3000 })
               .then((res) => {
                 resolve({
                   url,
@@ -29,7 +29,7 @@ class HeartbeatMiddlewareClient {
       Promise.all(dependencyPromises)
         .then((dependencies) => {
           const status = mergeStatuses(dependencies)
-          res.status(200).json({status, dependencies})
+          res.status(200).json({ status, dependencies })
         })
     }
   }

@@ -19,11 +19,11 @@ class HeartbeatMiddlewareService {
 
       const status = mergeStatuses(routeStatuses)
       res.status(status)
-        if(this.#options.getHideOutput()) {
-          res.send()
-        } else {
-          res.json({status, ...this.#lastStatus})
-        }
+      if (this.#options.getHideOutput()) {
+        res.send()
+      } else {
+        res.json({ status, ...this.#lastStatus })
+      }
     }
   }
 
@@ -41,13 +41,13 @@ class HeartbeatMiddlewareService {
     let url = route.url
     const hasDependencies = Array.isArray(route.dependencies)
     if (hasDependencies) {
-      const query = new URLSearchParams({dependencies: route.dependencies})
+      const query = new URLSearchParams({ dependencies: route.dependencies })
       url = `${url}?${query}`
     }
 
     const start = new Date()
     const promise = new Promise((resolve) => {
-      got(url, {timeout: 6000})
+      got(url, { timeout: 6000 })
         .then((res) => {
           if (hasDependencies) {
             return JSON.parse(res.body).dependencies
@@ -57,16 +57,16 @@ class HeartbeatMiddlewareService {
           const status = mergeStatuses(dependencies)
           resolve({
             status,
-            dependencies,
+            dependencies
           })
         })
         .catch((error) => {
           resolve({
-            status: error.message,
+            status: error.message
           })
         })
     })
-    promise.then(({status, dependencies}) => {
+    promise.then(({ status, dependencies }) => {
       this.#lastStatus[route.url] = {
         status,
         start,

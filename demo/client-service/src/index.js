@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const router = express.Router()
-const {heartbeatMiddlewareClient} = require('@appsaloon/heartbeat-middleware')
+const { heartbeatMiddlewareClient } = require('@appsaloon/heartbeat-middleware')
 
 router.get('/status', heartbeatMiddlewareClient)
 router.get('/', (req, res) => res.send('This client-service is online.'))
