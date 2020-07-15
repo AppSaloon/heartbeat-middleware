@@ -1,34 +1,40 @@
 {
   "name": "@appsaloon/heartbeat-middleware",
-  "version": "1.0.9",
-  "description": "",
+  "version": "2.0.0",
+  "description": "Heartbeat middleware for a proxy service",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "bash build.sh",
+    "build": "bash ./build/build.sh",
+    "demo": "bash ./demo/demo.sh",
     "pub": "npm run build && cd dist && npm publish && cd .."
   },
   "author": "david@appsaloon.be",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AppSaloon/heartbeat-middleware"
+  },
+  "license": "MIT",
   "eslintConfig": {
+    "parser": "babel-eslint",
     "extends": [
       "standard"
     ]
   },
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.9.0",
-    "@babel/plugin-proposal-object-rest-spread": "^7.9.0",
-    "@babel/plugin-transform-runtime": "^7.9.0",
-    "@babel/preset-env": "^7.9.0",
-    "eslint": "^6.8.0",
+    "@babel/cli": "^7.10.4",
+    "@babel/core": "^7.10.4",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.4.0",
     "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1"
   },
   "dependencies": {
-    "got": "^9.6.0"
+    "got": "^11.5.0"
   }
 }

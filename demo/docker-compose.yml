@@ -1,0 +1,54 @@
+version: "3.1"
+services:
+
+  ### proxy service
+  proxy-service:
+    image: node:erbium-alpine
+    volumes:
+      - ${PWD}/proxy-service:/service
+      - ${PWD}/../dist:/service/node_modules/@appsaloon/heartbeat-middleware
+    working_dir: /service
+    command: node ./src/index.js
+    ports:
+      - "3000:80"
+    depends_on:
+      - service1
+      - service2
+      - service3
+      - service4
+
+  ### service1
+  service1:
+    image: node:erbium-alpine
+    volumes:
+      - ${PWD}/client-service:/service
+      - ${PWD}/../dist:/service/node_modules/@appsaloon/heartbeat-middleware
+    working_dir: /service
+#    command: node ./src/index.js # TODO: uncomment this line to fix the demo
+
+  ### service2
+  service2:
+    image: node:erbium-alpine
+    volumes:
+      - ${PWD}/client-service:/service
+      - ${PWD}/../dist:/service/node_modules/@appsaloon/heartbeat-middleware
+    working_dir: /service
+    command: node ./src/index.js
+
+  ### service3
+  service3:
+    image: node:erbium-alpine
+    volumes:
+      - ${PWD}/client-service:/service
+      - ${PWD}/../dist:/service/node_modules/@appsaloon/heartbeat-middleware
+    working_dir: /service
+    command: node ./src/index.js
+
+  ### service4
+  service4:
+    image: node:erbium-alpine
+    volumes:
+      - ${PWD}/client-service:/service
+      - ${PWD}/../dist:/service/node_modules/@appsaloon/heartbeat-middleware
+    working_dir: /service
+    command: node ./src/index.js
