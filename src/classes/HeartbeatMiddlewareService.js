@@ -1,5 +1,6 @@
 const got = require('got')
 const mergeStatuses = require('../lib/mergeStatuses.js')
+const getPackageVersion = require('../lib/getPackageService.js')
 
 class HeartbeatMiddlewareService {
   #options
@@ -66,9 +67,11 @@ class HeartbeatMiddlewareService {
           })
         })
     })
+    const version = getPackageVersion()
     promise.then(({ status, dependencies }) => {
       this.#lastStatus[route.url] = {
         status,
+        version,
         start,
         end: new Date()
       }
