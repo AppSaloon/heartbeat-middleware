@@ -28,7 +28,7 @@ services:
 
   ### service2
   service2:
-    image: node:erbium-alpine
+    image: node:14-alpine
     volumes:
       - ${PWD}/client-service:/service
       - ${PWD}/../dist:/service/node_modules/@appsaloon/heartbeat-middleware
@@ -37,7 +37,7 @@ services:
 
   ### service3
   service3:
-    image: node:erbium-alpine
+    image: node:12-alpine
     volumes:
       - ${PWD}/client-service:/service
       - ${PWD}/../dist:/service/node_modules/@appsaloon/heartbeat-middleware

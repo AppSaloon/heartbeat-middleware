@@ -6,10 +6,10 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)" &&
   npm run build &&
   echo "Installing client-service dependencies..." &&
   cd "${DIR}/client-service/" &&
-  npm install &&
+  npm ci &&
   echo "Installing proxy-service dependencies..." &&
   cd "${DIR}/proxy-service/" &&
-  npm install &&
+  npm ci &&
   cd "${DIR}" &&
   echo "Running docker-compose..." &&
   docker-compose down &&
