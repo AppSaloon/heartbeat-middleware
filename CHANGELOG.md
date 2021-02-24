@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.0] - 2021-02-24
+
+### Changed
+
+- BREAKING: output format dependencies = array instead of object
+
+### Added
+
+- output nmaename = package.json <name@version>
+- uptime
+- lastConnection
+
 ## [2.0.1] - 2021-02-19
 
 ### Added

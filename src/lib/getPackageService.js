@@ -5,7 +5,7 @@ const getPackageVersion = () => {
   const packagePath = path.join(process.cwd(), '/package.json')
   const packageJson = fs.readJsonSync(packagePath, { throws: false })
   if (packageJson !== null) {
-    return packageJson.version
+    return `${packageJson.name}@${packageJson.version}`
   }
   return undefined
 }

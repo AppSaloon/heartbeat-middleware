@@ -1,14 +1,17 @@
+const os = require('os')
 const got = require('got')
 const mergeStatuses = require('../lib/mergeStatuses.js')
-const getPackageVersion = require('../lib/getPackageService.js')
+const getPackage = require('../lib/getPackageService.js')
 
 class HeartbeatMiddlewareService {
   #options
   #lastStatus
+  #name
 
   constructor (options) {
     this.#options = options
     this.#lastStatus = {}
+    this.#name = getPackage()
   }
 
   run () {
@@ -23,7 +26,8 @@ class HeartbeatMiddlewareService {
       if (this.#options.getHideOutput()) {
         res.send()
       } else {
-        res.json({ status, ...this.#lastStatus })
+        const uptime = os.uptime()
+        res.json({ name: this.#name, status, uptime, dependencies: Object.values(this.#lastStatus) })
       }
     }
   }
@@ -38,47 +42,49 @@ class HeartbeatMiddlewareService {
     })
   }
 
-  getHeartbeat (route) {
-    let url = route.url
+  async getHeartbeat (route) {
+    let searchParams
     const hasDependencies = Array.isArray(route.dependencies)
     if (hasDependencies) {
-      const query = new URLSearchParams({ dependencies: route.dependencies })
-      url = `${url}?${query}`
+      searchParams = new URLSearchParams({ dependencies: route.dependencies })
     }
 
     const start = new Date()
-    const promise = new Promise((resolve) => {
-      got(url, { timeout: 6000 })
-        .then((res) => {
-          if (hasDependencies) {
-            return JSON.parse(res.body).dependencies
-          }
-        })
-        .then((dependencies) => {
-          const status = mergeStatuses(dependencies)
-          resolve({
-            status,
-            dependencies
-          })
-        })
-        .catch((error) => {
-          resolve({
-            status: error.message
-          })
-        })
-    })
-    const version = getPackageVersion()
-    promise.then(({ status, dependencies }) => {
+    try {
+      const { body, statusCode } = await got(route.url, {
+        searchParams,
+        timeout: 6000,
+        responseType: 'json'
+      })
+
+      let status = statusCode
+      const { dependencies, name, uptime } = body
+      if (hasDependencies) {
+        status = mergeStatuses(dependencies)
+      }
+
       this.#lastStatus[route.url] = {
+        url: route.url,
+        name,
         status,
-        version,
+        uptime,
         start,
-        end: new Date()
+        end: new Date(),
+        lastConnection: new Date()
       }
       if (hasDependencies) {
         this.#lastStatus[route.url].dependencies = dependencies
       }
-    })
+    } catch (error) {
+      this.#lastStatus[route.url] = {
+        url: route.url,
+        status: error.response?.statusCode || error.code,
+        errorMessage: error.message,
+        start,
+        end: new Date(),
+        lastConnection: this.#lastStatus[route.url]?.lastConnection
+      }
+    }
   }
 }
 
