@@ -1,8 +1,10 @@
 const expectConstructorNameToBe = require('../lib/expectConstructorNameToBe.js')
+const expectArrayToHaveSize = require('../lib/expectArrayToHaveSize.js')
 
 class HeartbeatMiddlewareOptions {
   #routes
   #interval
+  #timeout
   #hideOutput
 
   constructor (options) {
@@ -13,6 +15,7 @@ class HeartbeatMiddlewareOptions {
     }
     this.#routes = options.routes
     this.#interval = options.interval || 60
+    this.#timeout = options.interval || 30
     this.#hideOutput = options.hideOutput || false
   }
 
@@ -27,12 +30,19 @@ class HeartbeatMiddlewareOptions {
 
       if (Array.isArray(route.dependencies)) {
         for (const [dependencyIndex, dependency] of route.dependencies.entries()) {
-          expectConstructorNameToBe(dependency, 'String', `options.routes.[${routeIndex}].dependencies.[${dependencyIndex}]`)
+          if (Array.isArray(dependency)) {
+            expectArrayToHaveSize(dependency, 2, `options.routes.[${routeIndex}].dependencies.[${dependencyIndex}]`)
+            expectConstructorNameToBe(dependency[0], 'String', `options.routes.[${routeIndex}].dependencies.[${dependencyIndex}][0]`)
+            expectConstructorNameToBe(dependency[1], 'Number', `options.routes.[${routeIndex}].dependencies.[${dependencyIndex}][1]`)
+          } else {
+            expectConstructorNameToBe(dependency, 'String', `options.routes.[${routeIndex}].dependencies.[${dependencyIndex}]`)
+          }
         }
       }
     }
 
     expectConstructorNameToBe(options.interval, 'Number', 'options.interval', true)
+    expectConstructorNameToBe(options.timeout, 'Number', 'options.timeout', true)
     expectConstructorNameToBe(options.hideOutput, 'Boolean', 'options.hideOutput', true)
   }
 
@@ -42,6 +52,10 @@ class HeartbeatMiddlewareOptions {
 
   getInterval () {
     return this.#interval
+  }
+
+  getTimeout () {
+    return this.#timeout
   }
 
   getHideOutput () {

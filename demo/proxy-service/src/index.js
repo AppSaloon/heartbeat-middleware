@@ -10,7 +10,7 @@ const options = {
     {
       url: 'http://service2/status', // service2 should be reachable from the proxy service
       dependencies: [
-        'http://service1/status', // service1 should be reachable from within service2
+        ['http://service1/status', 2], // service1 should be reachable from within service2 with a timeout of 2 seconds
         'http://service3/status' // service3 should be reachable from within service2
       ]
     },
@@ -18,6 +18,7 @@ const options = {
     { url: 'http://service4/status' } // service4 should be reachable from the proxy service
   ],
   interval: 60, // default: 60 seconds
+  timeout: 30, // default: 30 seconds
   hideOutput: false // default: false
 }
 app.get('/status', heartbeatMiddleware(options))

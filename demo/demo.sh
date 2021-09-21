@@ -4,6 +4,8 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)" &&
   echo "Preparing to run heartbeat-middleware demo..." &&
   echo "Creating a heartbeat-middleware build" &&
   npm run build &&
+  echo "Creating a heartbeat-middleware build" &&
+  npm run build &&
   echo "Installing client-service dependencies..." &&
   cd "${DIR}/client-service/" &&
   npm ci &&

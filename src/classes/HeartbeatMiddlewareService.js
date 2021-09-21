@@ -53,7 +53,7 @@ class HeartbeatMiddlewareService {
     try {
       const { body, statusCode } = await got(route.url, {
         searchParams,
-        timeout: 6000,
+        timeout: this.#options.getTimeout() * 1000,
         responseType: 'json'
       })
 

@@ -7,6 +7,7 @@ services:
     volumes:
       - ${PWD}/proxy-service:/service
       - ${PWD}/../dist:/service/node_modules/@appsaloon/heartbeat-middleware
+      - ${PWD}/../node_modules:/service/node_modules/@appsaloon/heartbeat-middleware/node_modules
     working_dir: /service
     command: node ./src/index.js
     ports:
@@ -23,8 +24,9 @@ services:
     volumes:
       - ${PWD}/client-service:/service
       - ${PWD}/../dist:/service/node_modules/@appsaloon/heartbeat-middleware
+      - ${PWD}/../node_modules:/service/node_modules/@appsaloon/heartbeat-middleware/node_modules
     working_dir: /service
-#    command: node ./src/index.js # TODO: uncomment this line to fix the demo
+    command: node ./src/index.js # TODO: uncomment this line to fix the demo
 
   ### service2
   service2:

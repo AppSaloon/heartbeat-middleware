@@ -10,12 +10,14 @@ class HeartbeatMiddlewareClient {
       const dependencyPromises = []
       if (req.query && req.query.dependencies && req.query.dependencies.length) {
         const dependencies = req.query.dependencies.split(',')
-        for (const url of dependencies) {
+        for (const dependency of dependencies) {
+          const url = Array.isArray(dependency) ? dependency[0] : dependency
+          const timeoutInSeconds = Array.isArray(dependency) ? dependency[1] : 30
           if (!this.#dependencies[url]) this.#dependencies[url] = {}
           const start = new Date()
           const promise = new Promise((resolve) => {
             got(url, {
-              timeout: 3000,
+              timeout: timeoutInSeconds * 1000,
               responseType: 'json'
             })
               .then(({ body, statusCode }) => {

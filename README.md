@@ -29,14 +29,15 @@ const options = {
     {
       url: 'http://service2/status',
       dependencies: [
-        'http://service1/status',
+        ['http://service1/status', 20], // default: 30 seconds -- the timeout of the request from client to dependency
         'http://service3/status',
       ]
     },
     {url: 'http://service3/status'},
     {url: 'http://service4/status'},
   ],
-  interval: 30, // default: 60 seconds
+  interval: 60, // default: 60 seconds
+  timeout: 30, // default: 30 seconds -- the timeout of the request from service to client
   hideOutput: false, // default: false
 }
 
@@ -51,8 +52,13 @@ The options variable passed to HeartbeatMiddleware should be an object with the 
 
 * `routes` (required): an array of objects with the following properties:
   * `url` (required): a string
-  * `dependencies` (optional): an array of strings
+  * `dependencies` (optional): an array of either:
+    * string (dependency url)
+    * array of size 2:
+      * string (dependency url)
+      * number (timeout in seconds)
 * `interval` (optional, default 60): a number
+* `timeout` (optional, default 30): a number
 * `hideOutput` (optional, default false): a boolean
 
 ---
