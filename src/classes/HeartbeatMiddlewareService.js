@@ -1,7 +1,7 @@
-const os = require('os')
-const got = require('got')
-const mergeStatuses = require('../lib/mergeStatuses.js')
-const getPackage = require('../lib/getPackageService.js')
+import os from 'os'
+import got from 'got'
+import mergeStatuses from '../lib/mergeStatuses.js'
+import getPackage from '../lib/getPackageService.js'
 
 class HeartbeatMiddlewareService {
   #options
@@ -51,11 +51,15 @@ class HeartbeatMiddlewareService {
 
     const start = new Date()
     try {
-      const { body, statusCode } = await got(route.url, {
+      const response = await got(route.url, {
         searchParams,
-        timeout: 6000,
+        timeout: {
+          request: 6000
+        },
         responseType: 'json'
       })
+
+      const { body, statusCode } = response
 
       let status = statusCode
       const { dependencies, name, uptime } = body
@@ -88,4 +92,4 @@ class HeartbeatMiddlewareService {
   }
 }
 
-module.exports = HeartbeatMiddlewareService
+export default HeartbeatMiddlewareService

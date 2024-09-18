@@ -1,6 +1,6 @@
-const express = require('express')
-const { createProxyMiddleware } = require('http-proxy-middleware')
-const heartbeatMiddleware = require('@appsaloon/heartbeat-middleware')
+import express from 'express'
+import { createProxyMiddleware } from 'http-proxy-middleware'
+import heartbeatMiddleware from '@appsaloon/heartbeat-middleware'
 
 const app = express()
 

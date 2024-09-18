@@ -4,4 +4,4 @@ const mergeStatuses = (arr) => {
     : 200
 }
 
-module.exports = mergeStatuses
+export default mergeStatuses

@@ -1,5 +1,5 @@
-const fs = require('fs-extra')
-const path = require('path')
+import fs from 'fs-extra'
+import path from 'path'
 
 const getPackageVersion = () => {
   const packagePath = path.join(process.cwd(), '/package.json')
@@ -10,4 +10,4 @@ const getPackageVersion = () => {
   return undefined
 }
 
-module.exports = getPackageVersion
+export default getPackageVersion

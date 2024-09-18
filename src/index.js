@@ -1,6 +1,6 @@
-const HeartbeatMiddlewareOptions = require('./classes/HeartbeatMiddlewareOptions.js')
-const HeartbeatMiddlewareService = require('./classes/HeartbeatMiddlewareService.js')
-const HeartbeatMiddlewareClient = require('./classes/HeartbeatMiddlewareClient.js')
+import HeartbeatMiddlewareOptions from './classes/HeartbeatMiddlewareOptions.js'
+import HeartbeatMiddlewareService from './classes/HeartbeatMiddlewareService.js'
+import HeartbeatMiddlewareClient from './classes/HeartbeatMiddlewareClient.js'
 
 const service = (options) => {
   const service = new HeartbeatMiddlewareService(new HeartbeatMiddlewareOptions(options))
@@ -12,5 +12,9 @@ const client = () => {
   return client.run()
 }
 
-module.exports = service
-module.exports.heartbeatMiddlewareClient = client()
+const middleWareClient = client()
+
+export default service
+export {
+  middleWareClient as heartbeatMiddlewareClient
+}

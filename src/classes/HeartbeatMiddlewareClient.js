@@ -1,60 +1,54 @@
-const os = require('os')
-const got = require('got')
-const mergeStatuses = require('../lib/mergeStatuses.js')
-const getPackage = require('../lib/getPackageService.js')
+import os from 'os'
+import got from 'got'
+import mergeStatuses from '../lib/mergeStatuses.js'
+import getPackage from '../lib/getPackageService.js'
 
 class HeartbeatMiddlewareClient {
   #dependencies = {}
   run () {
-    return (req, res) => {
-      const dependencyPromises = []
+    return async (req, res) => {
+      const dependenciesOutput = []
       if (req.query && req.query.dependencies && req.query.dependencies.length) {
         const dependencies = req.query.dependencies.split(',')
         for (const url of dependencies) {
           if (!this.#dependencies[url]) this.#dependencies[url] = {}
           const start = new Date()
-          const promise = new Promise((resolve) => {
-            got(url, {
-              timeout: 3000,
+          try {
+            const response = await got(url, {
+              timeout: {
+                request: 3000
+              },
               responseType: 'json'
             })
-              .then(({ body, statusCode }) => {
-                const { name, uptime } = body
-
-                this.#dependencies[url].lastConnection = new Date()
-                resolve({
-                  url,
-                  name,
-                  status: statusCode,
-                  uptime,
-                  start,
-                  end: new Date(),
-                  lastConnection: new Date()
-                })
-              })
-              .catch((error) => {
-                resolve({
-                  url,
-                  status: error.response?.statusCode || error.code,
-                  errorMessage: error.message,
-                  start,
-                  end: new Date(),
-                  lastConnection: this.#dependencies[url]?.lastConnection
-                })
-              })
-          })
-          dependencyPromises.push(promise)
+            const { body, statusCode } = response
+            const { name, uptime } = body
+            dependenciesOutput.push({
+              url,
+              name,
+              status: statusCode,
+              uptime,
+              start,
+              end: new Date(),
+              lastConnection: new Date()
+            })
+          } catch (error) {
+            dependenciesOutput.push({
+              url,
+              status: error.response?.statusCode || error.code,
+              errorMessage: error.message,
+              start,
+              end: new Date(),
+              lastConnection: this.#dependencies[url]?.lastConnection
+            })
+          }
         }
       }
-      Promise.all(dependencyPromises)
-        .then((dependencies) => {
-          const status = mergeStatuses(dependencies)
-          const name = getPackage()
-          const uptime = os.uptime()
-          res.status(200).json({ status, dependencies, name, uptime })
-        })
+      const status = mergeStatuses(dependenciesOutput)
+      const name = getPackage()
+      const uptime = os.uptime()
+      res.status(200).json({ status, dependenciesOutput, name, uptime })
     }
   }
 }
 
-module.exports = HeartbeatMiddlewareClient
+export default HeartbeatMiddlewareClient

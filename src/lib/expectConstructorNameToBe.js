@@ -12,4 +12,4 @@ const expectConstructorNameToBe = (value, constructorName, path, allowUndefined 
   }
 }
 
-module.exports = expectConstructorNameToBe
+export default expectConstructorNameToBe

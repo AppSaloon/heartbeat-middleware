@@ -1,4 +1,4 @@
-const expectConstructorNameToBe = require('../lib/expectConstructorNameToBe.js')
+import expectConstructorNameToBe from '../lib/expectConstructorNameToBe.js'
 
 class HeartbeatMiddlewareOptions {
   #routes
@@ -49,4 +49,4 @@ class HeartbeatMiddlewareOptions {
   }
 }
 
-module.exports = HeartbeatMiddlewareOptions
+export default HeartbeatMiddlewareOptions
